@@ -1,0 +1,30 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asp-docker-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: asp-docker-app
+  template:
+    metadata:
+      labels:
+        app: asp-docker-app
+    spec:
+      containers:
+      - name: asp-docker-app
+        image: acrmkmsdn.azurecr.io/aspdockerapp:1.0.1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: asp-docker-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: asp-docker-app
